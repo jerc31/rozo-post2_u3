@@ -1,6 +1,7 @@
 package com.jhoseth_rozo.myactivity.presentation
 
-import com.jhoseth_rozo.myactivity.domain.Task
+import com.jhoseth_rozo.myactivity.domain.model.Task
+
 sealed class TaskUiState {
     object Loading : TaskUiState()
     data class Success(val tasks: List<Task>) : TaskUiState()

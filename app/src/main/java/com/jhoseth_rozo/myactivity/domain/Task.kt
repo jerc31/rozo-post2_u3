@@ -1,7 +1,1 @@
-package com.jhoseth_rozo.myactivity.domain
-
-data class Task(
-    val id: Long,
-    val title: String,
-    val completed: Boolean = false
-)
+// File moved to com.jhoseth_rozo.myactivity.domain.model.Task

@@ -21,14 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.jhoseth_rozo.myactivity.domain.Task
+import com.jhoseth_rozo.myactivity.domain.model.Task
 import com.jhoseth_rozo.myactivity.presentation.TaskUiState
-import com.jhoseth_rozo.myactivity.presentation.TaskViewModel
+import com.jhoseth_rozo.myactivity.presentation.viewmodel.TaskViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TaskListScreen(viewModel: TaskViewModel = hiltViewModel()) {
+fun TaskListScreen(viewModel: TaskViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
