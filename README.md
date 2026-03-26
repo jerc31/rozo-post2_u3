@@ -1,4 +1,4 @@
-# TaskApp - MVVM con Hilt, StateFlow y Jetpack Compose
+# TaskApp - Clean Architecture con Koin, Use Cases y Compose
 
 ## Autor
 
@@ -6,51 +6,86 @@
 **Código:** 02230131027  
 **Programa:** Ingeniería de Sistemas  
 **Unidad:** Unidad 3 – Arquitectura de App Móviles  
-**Actividad:** Post-Contenido 1
-**Fecha:** 19/03/2026
+**Actividad:** Post-Contenido 2
+**Fecha:** 25/03/2026
 
 ---
 
 ## Descripción del Proyecto
 
-Este proyecto consiste en el desarrollo de una aplicación móvil para la gestión de tareas, construida como parte del laboratorio de la Unidad 3 de la asignatura Aplicaciones Móviles.
+Este proyecto consiste en la refactorización de la aplicación desarrollada en el Post-Contenido 1, migrando desde una arquitectura MVVM básica con Hilt hacia una implementación basada en Clean Architecture.
 
-La aplicación muestra una lista de tareas obtenidas desde un repositorio simulado en memoria, lo que permite centrarse en la separación de responsabilidades entre capas, la gestión reactiva del estado y la inyección de dependencias, sin la complejidad adicional de una base de datos real.
+Se reorganizó el código en tres capas principales (domain, data y presentation), se introdujo un Use Case para encapsular la lógica de negocio, y se reemplazó Hilt por Koin como framework de inyección de dependencias.
 
 ---
 
 ## Objetivo
 
-Implementar una aplicación Android que muestre una lista de tareas aplicando el patrón MVVM, utilizando:
+Refactorizar la aplicación para aplicar Clean Architecture, logrando:
 
-- ViewModel
-- StateFlow
-- Repositorio simulado (FakeRepository)
-- Inyección de dependencias con Hilt
-- UI con Jetpack Compose
+- Separación clara de responsabilidades
+- Independencia de la capa domain
+- Uso de Use Cases para lógica de negocio
+- Migración de Hilt a Koin
+- Implementación de pruebas unitarias
 
 ---
 
 ## Arquitectura
 
-Se implementa el patrón MVVM (Model - View - ViewModel):
+Se implementa **Clean Architecture**, separando la aplicación en tres capas:
 
-UI (Compose)
-↓
-ViewModel (StateFlow)
-↓
-Repository (Fake)
-↓
-Data
+- Presentation (UI + ViewModel)
+  ↓
+- Domain (Use Cases + Reglas de negocio)
+  ↓
+- Data (Repositorios)
+
+### 🔹 Capas
+
+#### 🟣 Domain
+
+- Contiene la lógica de negocio pura
+- No depende de Android
+- Incluye:
+  - Modelos (`Task`)
+  - Interfaces (`TaskRepository`)
+  - Use Case (`GetPendingTasksUseCase`)
+
+#### 🔵 Data
+
+- Implementación de repositorios
+- Fuente de datos en memoria
+- Incluye:
+  - `InMemoryTaskRepository`
+
+#### 🟢 Presentation
+
+- UI y lógica de presentación
+- Incluye:
+  - `TaskViewModel`
+  - `TaskListScreen`
+
+#### 🟡 DI
+
+- Configuración de dependencias con Koin
+- Incluye:
+  - `AppModule.kt`
 
 ---
 
-### 🔹 Capas:
+## 🧠 Use Case
 
-- **UI:** Pantalla declarativa con Compose
-- **ViewModel:** Manejo del estado con StateFlow
-- **Repository:** Simulación de datos en memoria
-- **DI:** Hilt para inyección de dependencias
+Se implementó el Use Case:
+
+**GetPendingTasksUseCase**
+
+Responsabilidad:
+
+- Filtrar tareas no completadas
+- Ordenarlas por ID descendente
+
+Esto permite desacoplar la lógica de negocio del ViewModel.
 
 ---
 
@@ -61,31 +96,26 @@ Data
 - ViewModel
 - StateFlow
 - Coroutines
-- Hilt (Inyección de dependencias)
-- JUnit (Testing)
+- Koin (Inyección de dependencias)
+- JUnit 4
+- kotlinx-coroutines-test
 
 ---
 
 # Capturas del Resultado
 
-## App corriendo con tareas
+## App busqueda doamin
 
-![Captura app corriendo](evidencias/Captura%20app%20ejecución.png)
-
----
-
-## App sin rotar
-
-![Captura sin rotar](evidencias/Captura%20sin%20rotar.png)
+![Captura_domain](evidencias/Captura_domain.png)
 
 ---
 
-## App con rotación
+## App en ejecución
 
-![Captura rotación](evidencias/Captura%20con%20rotación.PNG)
+![Captura_ejecucion](evidencias/Captura_app_ejecucion.png)
 
 ---
 
-## Test unitario del TaskViewModel
+## App test passed
 
-![Captura test](evidencias/Captura%20test%20unitario.png)
+![Captura_test_passed](evidencias/Captura_tests_passed.png)
